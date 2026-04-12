@@ -8,10 +8,10 @@ import net.minecraft.util.math.BlockPos;
 
 public final class TradingTerminalPayloads {
 
-    public static final CustomPayload.Id<TradingTerminalSyncPayload> TRADING_TERMINAL_SYNC_ID = CustomPayload.id("capitalcraft:trading_terminal_sync");
+    public static final CustomPayload.Id<TradingTerminalSyncPayload> TRADING_TERMINAL_SYNC_ID = CustomPayload.id("trading_terminal_sync");
     public static final PacketCodec<io.netty.buffer.ByteBuf, TradingTerminalSyncPayload> TRADING_TERMINAL_SYNC_CODEC = CustomPayload.codecOf(TradingTerminalPayloads::encodeSyncPayload, TradingTerminalPayloads::decodeSyncPayload);
 
-    public static final CustomPayload.Id<TradingTerminalTradeRequestPayload> TRADING_TERMINAL_TRADE_REQUEST_ID = CustomPayload.id("capitalcraft:trading_terminal_trade_request");
+    public static final CustomPayload.Id<TradingTerminalTradeRequestPayload> TRADING_TERMINAL_TRADE_REQUEST_ID = CustomPayload.id("trading_terminal_trade_request");
     public static final PacketCodec<io.netty.buffer.ByteBuf, TradingTerminalTradeRequestPayload> TRADING_TERMINAL_TRADE_REQUEST_CODEC = CustomPayload.codecOf(TradingTerminalPayloads::encodeTradeRequestPayload, TradingTerminalPayloads::decodeTradeRequestPayload);
 
     private TradingTerminalPayloads() {

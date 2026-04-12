@@ -27,9 +27,11 @@ public final class TradingPortfolio {
     }
 
     public static TradingPortfolio fromNbt(NbtCompound nbt) {
-        int[] quantities = normalizeArray(nbt.getIntArray(QUANTITIES_KEY));
-        int[] averageCosts = normalizeArray(nbt.getIntArray(AVERAGE_COSTS_KEY));
-        return new TradingPortfolio(nbt.getInt(CASH_KEY), nbt.getInt(REALIZED_PNL_KEY), quantities, averageCosts);
+        int[] quantities = normalizeArray(nbt.getIntArray(QUANTITIES_KEY).orElse(new int[0]));
+        int[] averageCosts = normalizeArray(nbt.getIntArray(AVERAGE_COSTS_KEY).orElse(new int[0]));
+        int cash = nbt.getInt(CASH_KEY).orElse(STARTING_CASH);
+        int realizedPnl = nbt.getInt(REALIZED_PNL_KEY).orElse(0);
+        return new TradingPortfolio(cash, realizedPnl, quantities, averageCosts);
     }
 
     public NbtCompound toNbt() {

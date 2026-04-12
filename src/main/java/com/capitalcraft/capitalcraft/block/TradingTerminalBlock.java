@@ -22,6 +22,6 @@ public class TradingTerminalBlock extends Block {
             serverPlayer.openHandledScreen(new TradingTerminalScreenFactory(pos));
         }
 
-        return ActionResult.success(world.isClient);
+        return ActionResult.SUCCESS;
     }
 }

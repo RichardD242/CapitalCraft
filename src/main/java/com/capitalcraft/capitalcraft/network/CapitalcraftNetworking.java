@@ -1,5 +1,6 @@
 package com.capitalcraft.capitalcraft.network;
 
+import com.capitalcraft.capitalcraft.market.TradingPortfolio;
 import com.capitalcraft.capitalcraft.market.TradingLedger;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
@@ -28,7 +29,7 @@ public final class CapitalcraftNetworking {
             MinecraftClient client = context.client();
             client.execute(() -> {
                 if (client.currentScreen instanceof com.capitalcraft.capitalcraft.screen.TradingTerminalScreen tradingTerminalScreen) {
-                    tradingTerminalScreen.applySnapshot(payload.portfolioData());
+                    tradingTerminalScreen.applySnapshot(TradingPortfolio.fromNbt(payload.portfolioData()));
                 }
             });
         });
