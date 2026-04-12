@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "capitalcraft",
+  "version": "${version}",
+  "name": "CapitalCraft",
+  "description": "Earn Money in Minecraft",
+  "authors": [],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/capitalcraft/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "com.capitalcraft.capitalcraft.client.CapitalcraftClient"
+    ],
+    "main": [
+      "com.capitalcraft.capitalcraft.Capitalcraft"
+    ]
+  },
+  "mixins": [
+    "capitalcraft.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-api": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
