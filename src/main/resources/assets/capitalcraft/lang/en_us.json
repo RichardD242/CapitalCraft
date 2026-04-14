@@ -1,8 +1,8 @@
 {
   "block.capitalcraft.trading_terminal": "Trading Terminal",
+  "block.capitalcraft.atm": "ATM",
+  "item.capitalcraft.money_voucher": "Money Voucher",
   "screen.capitalcraft.trading_terminal": "Trading Terminal",
-  "capitalcraft.asset.aur": "Aurora Mining",
-  "capitalcraft.asset.bta": "Blue Tide Analytics",
-  "capitalcraft.asset.cfx": "Capital Fiber Exchange",
-  "capitalcraft.asset.nxt": "Nextwave Robotics"
+  "screen.capitalcraft.atm": "ATM",
+  "biome.capitalcraft.silicon_valley": "Silicon Valley"
 }

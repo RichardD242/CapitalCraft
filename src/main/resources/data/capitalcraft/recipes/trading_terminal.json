@@ -3,15 +3,15 @@
   "category": "redstone",
   "pattern": [
     "III",
-    "ICI",
+    "IRI",
     "III"
   ],
   "key": {
     "I": {
       "item": "minecraft:iron_ingot"
     },
-    "C": {
-      "item": "minecraft:crafting_table"
+    "R": {
+      "item": "minecraft:redstone"
     }
   },
   "result": {

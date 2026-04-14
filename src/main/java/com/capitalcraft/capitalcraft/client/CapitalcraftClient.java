@@ -10,5 +10,6 @@ public class CapitalcraftClient implements ClientModInitializer {
     public void onInitializeClient() {
         CapitalcraftScreens.registerClientScreens();
         CapitalcraftNetworking.initClient();
+        WalletHudOverlay.register();
     }
 }

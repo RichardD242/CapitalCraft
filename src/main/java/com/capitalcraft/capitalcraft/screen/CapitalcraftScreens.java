@@ -10,10 +10,16 @@ import net.minecraft.util.Identifier;
 public final class CapitalcraftScreens {
 
     private static final Identifier TRADING_TERMINAL_ID = Identifier.of(Capitalcraft.MOD_ID, "trading_terminal");
+    private static final Identifier ATM_ID = Identifier.of(Capitalcraft.MOD_ID, "atm");
     public static final ScreenHandlerType<TradingTerminalScreenHandler> TRADING_TERMINAL_SCREEN_HANDLER = Registry.register(
             Registries.SCREEN_HANDLER,
             TRADING_TERMINAL_ID,
             new ExtendedScreenHandlerType<>(TradingTerminalScreenHandler::new, net.minecraft.util.math.BlockPos.PACKET_CODEC)
+    );
+    public static final ScreenHandlerType<AtmScreenHandler> ATM_SCREEN_HANDLER = Registry.register(
+        Registries.SCREEN_HANDLER,
+        ATM_ID,
+        new ExtendedScreenHandlerType<>(AtmScreenHandler::new, net.minecraft.util.math.BlockPos.PACKET_CODEC)
     );
 
     private CapitalcraftScreens() {
@@ -24,5 +30,6 @@ public final class CapitalcraftScreens {
 
     public static void registerClientScreens() {
         net.minecraft.client.gui.screen.ingame.HandledScreens.register(TRADING_TERMINAL_SCREEN_HANDLER, TradingTerminalScreen::new);
+        net.minecraft.client.gui.screen.ingame.HandledScreens.register(ATM_SCREEN_HANDLER, AtmScreen::new);
     }
 }

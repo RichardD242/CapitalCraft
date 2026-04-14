@@ -8,7 +8,12 @@ public final class TradingPortfolio {
     private static final String REALIZED_PNL_KEY = "realizedPnl";
     private static final String QUANTITIES_KEY = "quantities";
     private static final String AVERAGE_COSTS_KEY = "averageCosts";
-    private static final int STARTING_CASH = 10_000;
+    
+    private static final int STARTING_CASH = 1_100_000;
+    
+    private static final int TRANSACTION_FEE_BPS = 50; // 0.5%
+    
+    private static final int DEATH_PENALTY_PERCENT = 15;
 
     private final int cash;
     private final int realizedPnl;
@@ -62,7 +67,8 @@ public final class TradingPortfolio {
     public int unrealizedPnl() {
         int total = 0;
         for (int index = 0; index < TradingMarket.assetCount(); index++) {
-            total += quantity(index) * (TradingMarket.asset(index).price() - averageCost(index));
+            int currentPrice = MarketSimulator.getPrice(index);
+            total += quantity(index) * (currentPrice - averageCost(index));
         }
 
         return total;
@@ -76,14 +82,22 @@ public final class TradingPortfolio {
         int total = cash;
 
         for (int index = 0; index < TradingMarket.assetCount(); index++) {
-            total += quantity(index) * TradingMarket.asset(index).price();
+            int currentPrice = MarketSimulator.getPrice(index);
+            total += quantity(index) * currentPrice;
         }
 
         return total;
     }
 
     public int positionValue(int index) {
-        return quantity(index) * TradingMarket.asset(index).price();
+        int currentPrice = MarketSimulator.getPrice(index);
+        return quantity(index) * currentPrice;
+    }
+
+    public TradingPortfolio applyDeathPenalty() {
+        int cashLoss = (cash * DEATH_PENALTY_PERCENT) / 100;
+        int remainingCash = cash - cashLoss;
+        return new TradingPortfolio(remainingCash, realizedPnl, quantities, averageCosts);
     }
 
     public TradingPortfolio buy(int assetIndex, int requestedQuantity) {
@@ -91,14 +105,20 @@ public final class TradingPortfolio {
             return this;
         }
 
-        int price = TradingMarket.asset(assetIndex).price();
+        int price = MarketSimulator.getPrice(assetIndex);
+        int costBeforeFee = requestedQuantity * price;
+        int fee = (costBeforeFee * TRANSACTION_FEE_BPS) / 10_000;
+        int totalCost = costBeforeFee + fee;
+        
         int affordableQuantity = cash / price;
         int quantityToBuy = Math.min(requestedQuantity, affordableQuantity);
 
-        if (quantityToBuy <= 0) {
+        if (quantityToBuy <= 0 || totalCost > cash) {
             return this;
         }
 
+        int actualCost = (quantityToBuy * price) + ((quantityToBuy * price * TRANSACTION_FEE_BPS) / 10_000);
+        
         int[] nextQuantities = quantities.clone();
         int[] nextAverageCosts = averageCosts.clone();
         int currentQuantity = nextQuantities[assetIndex];
@@ -108,7 +128,7 @@ public final class TradingPortfolio {
         nextQuantities[assetIndex] = newQuantity;
         nextAverageCosts[assetIndex] = (int) (weightedCost / newQuantity);
 
-        return new TradingPortfolio(cash - quantityToBuy * price, realizedPnl, nextQuantities, nextAverageCosts);
+        return new TradingPortfolio(cash - actualCost, realizedPnl, nextQuantities, nextAverageCosts);
     }
 
     public TradingPortfolio sell(int assetIndex, int requestedQuantity) {
@@ -123,7 +143,11 @@ public final class TradingPortfolio {
             return this;
         }
 
-        int price = TradingMarket.asset(assetIndex).price();
+        int price = MarketSimulator.getPrice(assetIndex);
+        int proceeds = quantityToSell * price;
+        int fee = (proceeds * TRANSACTION_FEE_BPS) / 10_000;
+        int netProceeds = proceeds - fee;
+        
         int basis = averageCosts[assetIndex];
         int[] nextQuantities = quantities.clone();
         int[] nextAverageCosts = averageCosts.clone();
@@ -134,7 +158,7 @@ public final class TradingPortfolio {
         }
 
         int nextRealizedPnl = realizedPnl + quantityToSell * (price - basis);
-        int nextCash = cash + quantityToSell * price;
+        int nextCash = cash + netProceeds;
 
         return new TradingPortfolio(nextCash, nextRealizedPnl, nextQuantities, nextAverageCosts);
     }

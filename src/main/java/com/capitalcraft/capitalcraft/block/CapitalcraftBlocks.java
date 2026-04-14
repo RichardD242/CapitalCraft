@@ -14,9 +14,12 @@ import net.minecraft.util.Identifier;
 
 public final class CapitalcraftBlocks {
 
-    private static final Identifier TRADING_TERMINAL_ID = Identifier.of(Capitalcraft.MOD_ID, "trading_terminal");
-    private static final RegistryKey<Block> TRADING_TERMINAL_KEY = RegistryKey.of(RegistryKeys.BLOCK, TRADING_TERMINAL_ID);
-    private static final RegistryKey<Item> TRADING_TERMINAL_ITEM_KEY = RegistryKey.of(RegistryKeys.ITEM, TRADING_TERMINAL_ID);
+        private static final Identifier TRADING_TERMINAL_ID = Identifier.of(Capitalcraft.MOD_ID, "trading_terminal");
+        private static final Identifier ATM_ID = Identifier.of(Capitalcraft.MOD_ID, "atm");
+        private static final RegistryKey<Block> TRADING_TERMINAL_KEY = RegistryKey.of(RegistryKeys.BLOCK, TRADING_TERMINAL_ID);
+        private static final RegistryKey<Item> TRADING_TERMINAL_ITEM_KEY = RegistryKey.of(RegistryKeys.ITEM, TRADING_TERMINAL_ID);
+        private static final RegistryKey<Block> ATM_KEY = RegistryKey.of(RegistryKeys.BLOCK, ATM_ID);
+        private static final RegistryKey<Item> ATM_ITEM_KEY = RegistryKey.of(RegistryKeys.ITEM, ATM_ID);
 
     public static final Block TRADING_TERMINAL = Registry.register(
             Registries.BLOCK,
@@ -28,6 +31,18 @@ public final class CapitalcraftBlocks {
             Registries.ITEM,
             TRADING_TERMINAL_ID,
             new BlockItem(TRADING_TERMINAL, new Item.Settings().registryKey(TRADING_TERMINAL_ITEM_KEY))
+    );
+
+    public static final Block ATM = Registry.register(
+            Registries.BLOCK,
+            ATM_ID,
+            new AtmBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK).strength(3.5f).requiresTool().registryKey(ATM_KEY))
+    );
+
+    public static final Item ATM_ITEM = Registry.register(
+            Registries.ITEM,
+            ATM_ID,
+            new BlockItem(ATM, new Item.Settings().registryKey(ATM_ITEM_KEY))
     );
 
     private CapitalcraftBlocks() {
