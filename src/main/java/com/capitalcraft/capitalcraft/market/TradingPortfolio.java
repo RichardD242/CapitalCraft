@@ -70,7 +70,7 @@ public final class TradingPortfolio {
     public int unrealizedPnl() {
         int total = 0;
         for (int index = 0; index < TradingMarket.assetCount(); index++) {
-            int currentPrice = MarketSimulator.getPrice(index);
+            int currentPrice = MarketSimulator.getPriceInCurrencyUnits(index);
             total += quantity(index) * (currentPrice - averageCost(index));
         }
 
@@ -85,7 +85,7 @@ public final class TradingPortfolio {
         int total = cash;
 
         for (int index = 0; index < TradingMarket.assetCount(); index++) {
-            int currentPrice = MarketSimulator.getPrice(index);
+            int currentPrice = MarketSimulator.getPriceInCurrencyUnits(index);
             total += quantity(index) * currentPrice;
         }
 
@@ -93,7 +93,7 @@ public final class TradingPortfolio {
     }
 
     public int positionValue(int index) {
-        int currentPrice = MarketSimulator.getPrice(index);
+        int currentPrice = MarketSimulator.getPriceInCurrencyUnits(index);
         return quantity(index) * currentPrice;
     }
 
@@ -112,19 +112,21 @@ public final class TradingPortfolio {
             return this;
         }
 
-        int price = MarketSimulator.getPrice(assetIndex);
-        int costBeforeFee = requestedQuantity * price;
-        int fee = (costBeforeFee * TRANSACTION_FEE_BPS) / 10_000;
-        int totalCost = costBeforeFee + fee;
-        
-        int affordableQuantity = cash / price;
-        int quantityToBuy = Math.min(requestedQuantity, affordableQuantity);
-
-        if (quantityToBuy <= 0 || totalCost > cash) {
+        int price = MarketSimulator.getPriceInCurrencyUnits(assetIndex);
+        if (price <= 0) {
             return this;
         }
 
-        int actualCost = (quantityToBuy * price) + ((quantityToBuy * price * TRANSACTION_FEE_BPS) / 10_000);
+        int quantityToBuy = Math.min(requestedQuantity, cash / price);
+        while (quantityToBuy > 0 && totalCost(quantityToBuy, price) > cash) {
+            quantityToBuy--;
+        }
+
+        if (quantityToBuy <= 0) {
+            return this;
+        }
+
+        int actualCost = totalCost(quantityToBuy, price);
         
         int[] nextQuantities = quantities.clone();
         int[] nextAverageCosts = averageCosts.clone();
@@ -150,10 +152,8 @@ public final class TradingPortfolio {
             return this;
         }
 
-        int price = MarketSimulator.getPrice(assetIndex);
-        int proceeds = quantityToSell * price;
-        int fee = (proceeds * TRANSACTION_FEE_BPS) / 10_000;
-        int netProceeds = proceeds - fee;
+        int price = MarketSimulator.getPriceInCurrencyUnits(assetIndex);
+        int netProceeds = totalProceeds(quantityToSell, price);
         
         int basis = averageCosts[assetIndex];
         int[] nextQuantities = quantities.clone();
@@ -168,6 +168,18 @@ public final class TradingPortfolio {
         int nextCash = cash + netProceeds;
 
         return new TradingPortfolio(nextCash, nextRealizedPnl, nextQuantities, nextAverageCosts);
+    }
+
+    private static int totalCost(int quantity, int price) {
+        long grossCost = (long) quantity * price;
+        long fee = (grossCost * TRANSACTION_FEE_BPS) / 10_000L;
+        return (int) (grossCost + fee);
+    }
+
+    private static int totalProceeds(int quantity, int price) {
+        long grossProceeds = (long) quantity * price;
+        long fee = (grossProceeds * TRANSACTION_FEE_BPS) / 10_000L;
+        return (int) (grossProceeds - fee);
     }
 
     private static int[] normalizeArray(int[] values) {

@@ -169,7 +169,7 @@ public class TradingTerminalScreen extends net.minecraft.client.gui.screen.ingam
                 continue;
             }
             int rowY = startY + 24 + row * ROW_HEIGHT;
-            int price = MarketSimulator.getPrice(index);
+            int price = MarketSimulator.getPriceInCurrencyUnits(index);
             int heldQuantity = snapshot.quantity(index);
             int positionValue = snapshot.positionValue(index);
             int unrealized = heldQuantity * (price - snapshot.averageCost(index));
@@ -308,7 +308,7 @@ public class TradingTerminalScreen extends net.minecraft.client.gui.screen.ingam
                 continue;
             }
 
-            int price = MarketSimulator.getPrice(index);
+            int price = MarketSimulator.getPriceInCurrencyUnits(index);
             buyButtons.get(row).active = snapshot.cash() >= price;
             sellButtons.get(row).active = snapshot.quantity(index) > 0;
         }
@@ -325,7 +325,7 @@ public class TradingTerminalScreen extends net.minecraft.client.gui.screen.ingam
 
     private void appendPriceHistory() {
         for (int assetIndex = 0; assetIndex < TradingMarket.assetCount(); assetIndex++) {
-            int price = MarketSimulator.getPrice(assetIndex);
+            int price = MarketSimulator.getPriceInCurrencyUnits(assetIndex);
             int size = priceHistorySizes[assetIndex];
             if (size < CHART_HISTORY_POINTS) {
                 priceHistory[assetIndex][size] = price;
@@ -342,11 +342,15 @@ public class TradingTerminalScreen extends net.minecraft.client.gui.screen.ingam
             return;
         }
 
-        int price = MarketSimulator.getPrice(assetIndex);
+        int price = MarketSimulator.getPriceInCurrencyUnits(assetIndex);
         for (int i = 0; i < 8; i++) {
             priceHistory[assetIndex][i] = price;
         }
         priceHistorySizes[assetIndex] = 8;
+    }
+
+    public void applyWalletUpdate(int cash) {
+        snapshot = snapshot.withCash(cash);
     }
 
     @Override

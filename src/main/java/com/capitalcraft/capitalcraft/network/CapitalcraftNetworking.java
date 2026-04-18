@@ -48,7 +48,12 @@ public final class CapitalcraftNetworking {
         });
 
         ClientPlayNetworking.registerGlobalReceiver(TradingTerminalPayloads.WALLET_SYNC_ID, (payload, context) -> {
-            context.client().execute(() -> com.capitalcraft.capitalcraft.client.ClientWalletState.setCash(payload.cash()));
+            context.client().execute(() -> {
+                com.capitalcraft.capitalcraft.client.ClientWalletState.setCash(payload.cash());
+                if (context.client().currentScreen instanceof com.capitalcraft.capitalcraft.screen.TradingTerminalScreen tradingTerminalScreen) {
+                    tradingTerminalScreen.applyWalletUpdate(payload.cash());
+                }
+            });
         });
     }
 

@@ -37,7 +37,7 @@ public final class TradingMarket {
         if (index < 0 || index >= assetCount()) {
             return null;
         }
-        int price = MarketSimulator.getPrice(index);
+        int price = MarketSimulator.getPriceInCurrencyUnits(index);
         return new TradingAsset(SYMBOLS[index], NAMES[index], price, DESCRIPTIONS[index]);
     }
 

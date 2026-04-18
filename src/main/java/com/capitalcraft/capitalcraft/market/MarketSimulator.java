@@ -46,6 +46,10 @@ public class MarketSimulator {
         }
         return PRICES[assetIndex];
     }
+
+    public static int getPriceInCurrencyUnits(int assetIndex) {
+        return getPrice(assetIndex) / 100;
+    }
     
     public static int[] getAllPrices() {
         return PRICES.clone();
