@@ -1,18 +1,13 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "redstone",
+  "category": "misc",
   "pattern": [
     "III",
-    "IDI",
+    " I ",
     "III"
   ],
   "key": {
-    "I": {
-      "item": "minecraft:iron_ingot"
-    },
-    "D": {
-      "item": "minecraft:diamond"
-    }
+    "I": "minecraft:iron_ingot"
   },
   "result": {
     "id": "capitalcraft:atm",

@@ -128,6 +128,9 @@ public final class PlayerTradingData {
         }
 
         int cash = object.has("cash") ? object.get("cash").getAsInt() : TradingPortfolio.createDefault().cash();
+        if (cash > 10_000) {
+            cash = Math.max(0, cash / 1100);
+        }
         int realizedPnl = object.has("realizedPnl") ? object.get("realizedPnl").getAsInt() : 0;
         return new TradingPortfolio(cash, realizedPnl, quantities, averageCosts);
     }

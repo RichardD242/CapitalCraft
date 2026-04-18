@@ -7,7 +7,6 @@ import net.minecraft.text.Text;
 
 public final class WalletHudOverlay {
 
-    private static final float EUR_TO_CREDITS_RATE = 1100.0f;
     private static final float EUR_TO_USD_RATE = 1.10f;
 
     private WalletHudOverlay() {
@@ -24,8 +23,7 @@ public final class WalletHudOverlay {
             return;
         }
 
-        int cashCredits = ClientWalletState.getCash();
-        int cashEur = Math.round(cashCredits / EUR_TO_CREDITS_RATE);
+        int cashEur = ClientWalletState.getCash();
         int cashUsd = Math.round(cashEur * EUR_TO_USD_RATE);
 
         int width = client.getWindow().getScaledWidth();

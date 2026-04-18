@@ -7,7 +7,6 @@ import com.capitalcraft.capitalcraft.util.PlayerTradingData;
 import net.minecraft.item.ItemStack;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 
 public final class TradingLedger {
@@ -46,7 +45,7 @@ public final class TradingLedger {
     }
 
     public static void handleAtmWithdraw(ServerPlayerEntity player, BlockPos atmPos, int amount) {
-        if (amount != 100 && amount != 500 && amount != 1000) {
+        if (amount != 100 && amount != 200 && amount != 500 && amount != 1000) {
             return;
         }
 
@@ -69,8 +68,7 @@ public final class TradingLedger {
         PlayerTradingData.setPortfolio(player, updated);
         CapitalcraftNetworking.sendWalletSync(player, updated.cash());
 
-        ItemStack payout = new ItemStack(CapitalcraftItems.MONEY_VOUCHER);
-        payout.set(net.minecraft.component.DataComponentTypes.CUSTOM_NAME, Text.literal("Euro Voucher " + amount));
+        ItemStack payout = CapitalcraftItems.createMoneyVoucher(amount);
         if (!player.getInventory().insertStack(payout)) {
             player.dropItem(payout, false);
         }

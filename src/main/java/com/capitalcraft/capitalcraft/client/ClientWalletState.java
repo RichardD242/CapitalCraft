@@ -2,7 +2,7 @@ package com.capitalcraft.capitalcraft.client;
 
 public final class ClientWalletState {
 
-    private static final int DEFAULT_CASH = 1_100_000;
+    private static final int DEFAULT_CASH = 1_000;
     private static int cash = DEFAULT_CASH;
 
     private ClientWalletState() {

@@ -1,18 +1,14 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "redstone",
+  "category": "misc",
   "pattern": [
     "III",
     "IRI",
     "III"
   ],
   "key": {
-    "I": {
-      "item": "minecraft:iron_ingot"
-    },
-    "R": {
-      "item": "minecraft:redstone"
-    }
+    "I": "minecraft:iron_ingot",
+    "R": "minecraft:diamond"
   },
   "result": {
     "id": "capitalcraft:trading_terminal",

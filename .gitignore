@@ -6,16 +6,26 @@
 
 # Gradle build folder
 build
+out/
+
+# Generated workspace output
+bin/
+run/
+*.class
+*.jar
 
 # IntelliJ
-out/
 .idea
 *.iml
 # mpeltonen/sbt-idea plugin
 .idea_modules/
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+# VS Code
+.vscode/
+
+# Logs and crash reports
+logs/
+crash-reports/
 hs_err_pid*
 
-# Common working directory
-run
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml

@@ -22,16 +22,19 @@ public class AtmScreen extends net.minecraft.client.gui.screen.ingame.HandledScr
         super.init();
 
         int left = this.x + 13;
-        int top = this.y + 54;
+        int top = this.y + 56;
 
         addDrawableChild(ButtonWidget.builder(Text.literal("Withdraw 100"), b -> CapitalcraftNetworking.requestAtmWithdraw(getScreenHandler().getAtmPos(), 100))
-            .dimensions(left, top, 150, 20)
+            .dimensions(left, top, 72, 20)
+                .build());
+        addDrawableChild(ButtonWidget.builder(Text.literal("Withdraw 200"), b -> CapitalcraftNetworking.requestAtmWithdraw(getScreenHandler().getAtmPos(), 200))
+            .dimensions(left + 78, top, 72, 20)
                 .build());
         addDrawableChild(ButtonWidget.builder(Text.literal("Withdraw 500"), b -> CapitalcraftNetworking.requestAtmWithdraw(getScreenHandler().getAtmPos(), 500))
-            .dimensions(left, top + 24, 150, 20)
+            .dimensions(left, top + 24, 72, 20)
                 .build());
         addDrawableChild(ButtonWidget.builder(Text.literal("Withdraw 1000"), b -> CapitalcraftNetworking.requestAtmWithdraw(getScreenHandler().getAtmPos(), 1000))
-            .dimensions(left, top + 48, 150, 20)
+            .dimensions(left + 78, top + 24, 72, 20)
                 .build());
     }
 
@@ -45,13 +48,11 @@ public class AtmScreen extends net.minecraft.client.gui.screen.ingame.HandledScr
         context.fillGradient(left, top, right, bottom, 0xFF111620, 0xFF1A2331);
         context.drawBorder(left, top, this.backgroundWidth, this.backgroundHeight, 0xFF51627A);
 
-        int cashCredits = ClientWalletState.getCash();
-        int eur = Math.round(cashCredits / 1100.0f);
-        int usd = Math.round(eur * 1.10f);
+        int eur = ClientWalletState.getCash();
 
         context.drawTextWithShadow(textRenderer, Text.literal("ATM"), left + 10, top + 10, 0xFFF2C94C);
         context.drawTextWithShadow(textRenderer, Text.literal("Balance: " + eur + " EUR"), left + 10, top + 25, 0xFFE6EEF9);
-        context.drawTextWithShadow(textRenderer, Text.literal("Approx: " + usd + " USD"), left + 10, top + 37, 0xFFB9C8E8);
+        context.drawTextWithShadow(textRenderer, Text.literal("Start Balance: 1000 EUR"), left + 10, top + 37, 0xFFB9C8E8);
     }
 
     @Override

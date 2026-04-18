@@ -6,8 +6,7 @@
   "mixins": [
   ],
   "client": [
-    "client.ZombieEntityRenderStateMixin",
-    "client.ZombieBaseEntityRendererMixin"
+    "client.PlayerListEntryMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "capitalcraft:item/terminal_txt"
+    "layer0": "capitalcraft:item/terminalhotbar"
   }
 }

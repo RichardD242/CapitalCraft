@@ -9,9 +9,9 @@ public final class TradingPortfolio {
     private static final String QUANTITIES_KEY = "quantities";
     private static final String AVERAGE_COSTS_KEY = "averageCosts";
     
-    private static final int STARTING_CASH = 1_100_000;
+    private static final int STARTING_CASH = 1_000;
     
-    private static final int TRANSACTION_FEE_BPS = 50; // 0.5%
+    private static final int TRANSACTION_FEE_BPS = 50;
     
     private static final int DEATH_PENALTY_PERCENT = 15;
 
@@ -35,6 +35,9 @@ public final class TradingPortfolio {
         int[] quantities = normalizeArray(nbt.getIntArray(QUANTITIES_KEY).orElse(new int[0]));
         int[] averageCosts = normalizeArray(nbt.getIntArray(AVERAGE_COSTS_KEY).orElse(new int[0]));
         int cash = nbt.getInt(CASH_KEY).orElse(STARTING_CASH);
+        if (cash > 10_000) {
+            cash = Math.max(0, cash / 1100);
+        }
         int realizedPnl = nbt.getInt(REALIZED_PNL_KEY).orElse(0);
         return new TradingPortfolio(cash, realizedPnl, quantities, averageCosts);
     }
@@ -98,6 +101,10 @@ public final class TradingPortfolio {
         int cashLoss = (cash * DEATH_PENALTY_PERCENT) / 100;
         int remainingCash = cash - cashLoss;
         return new TradingPortfolio(remainingCash, realizedPnl, quantities, averageCosts);
+    }
+
+    public TradingPortfolio withCash(int nextCash) {
+        return new TradingPortfolio(nextCash, realizedPnl, quantities, averageCosts);
     }
 
     public TradingPortfolio buy(int assetIndex, int requestedQuantity) {

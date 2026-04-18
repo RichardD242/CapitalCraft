@@ -53,9 +53,7 @@ public final class CapitalcraftBiomes {
                     return method.invoke(overworldFunction, args);
                 }
 
-                @SuppressWarnings("unchecked")
                 java.util.function.Function<RegistryKey<Biome>, Object> biomeLookup = (java.util.function.Function<RegistryKey<Biome>, Object>) args[0];
-                @SuppressWarnings("unchecked")
                 MultiNoiseUtil.Entries<Object> overworldEntries = (MultiNoiseUtil.Entries<Object>) biomeSourceFunctionClass.getMethod("apply", java.util.function.Function.class).invoke(overworldFunction, biomeLookup);
                 List<Pair<MultiNoiseUtil.NoiseHypercube, Object>> entries = new ArrayList<>(overworldEntries.getEntries());
                 entries.add(Pair.of(
@@ -71,7 +69,6 @@ public final class CapitalcraftBiomes {
                     handler
             );
 
-            @SuppressWarnings("unchecked")
             Constructor<MultiNoiseBiomeSourceParameterList.Preset> constructor = (Constructor<MultiNoiseBiomeSourceParameterList.Preset>) MultiNoiseBiomeSourceParameterList.Preset.class.getDeclaredConstructor(Identifier.class, biomeSourceFunctionClass);
             constructor.setAccessible(true);
 

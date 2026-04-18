@@ -2,6 +2,7 @@ package com.capitalcraft.capitalcraft;
 
 import com.capitalcraft.capitalcraft.block.CapitalcraftBlocks;
 import com.capitalcraft.capitalcraft.command.CeoCommand;
+import com.capitalcraft.capitalcraft.command.MoneyCommand;
 import com.capitalcraft.capitalcraft.item.CapitalcraftItems;
 import com.capitalcraft.capitalcraft.event.PlayerEventListener;
 import com.capitalcraft.capitalcraft.market.MarketSimulator;
@@ -27,6 +28,7 @@ public class Capitalcraft implements ModInitializer {
         CapitalcraftNetworking.init();
         CapitalcraftBiomes.init();
         CeoCommand.register();
+        MoneyCommand.register();
         PlayerEventListener.register();
         
         MarketSimulator.reset();
