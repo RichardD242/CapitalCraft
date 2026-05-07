@@ -4,6 +4,7 @@
   "package": "com.capitalcraft.capitalcraft.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "VanillaBiomeParametersMixin"
   ],
   "client": [
     "client.PlayerListEntryMixin"

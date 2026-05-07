@@ -6,7 +6,7 @@
         "type": "minecraft:noise",
         "biome_source": {
           "type": "minecraft:multi_noise",
-          "preset": "capitalcraft:silicon_valley_overworld"
+          "preset": "minecraft:overworld"
         },
         "settings": "minecraft:overworld"
       }

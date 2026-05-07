@@ -9,7 +9,6 @@ import com.capitalcraft.capitalcraft.market.MarketSimulator;
 import com.capitalcraft.capitalcraft.market.TradingLedger;
 import com.capitalcraft.capitalcraft.network.CapitalcraftNetworking;
 import com.capitalcraft.capitalcraft.screen.CapitalcraftScreens;
-import com.capitalcraft.capitalcraft.world.CapitalcraftBiomes;
 import com.capitalcraft.capitalcraft.world.feature.CapitalcraftWorldFeatures;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -26,13 +25,12 @@ public class Capitalcraft implements ModInitializer {
         CapitalcraftWorldFeatures.init();
         CapitalcraftScreens.init();
         CapitalcraftNetworking.init();
-        CapitalcraftBiomes.init();
         CeoCommand.register();
         MoneyCommand.register();
         PlayerEventListener.register();
-        
+
         MarketSimulator.reset();
-        
+
         ServerTickEvents.END_SERVER_TICK.register(server -> {
             MarketSimulator.tick(server.getTicks());
         });
