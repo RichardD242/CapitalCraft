@@ -1,6 +1,7 @@
 {
   "block.capitalcraft.trading_terminal": "Trading Terminal",
   "block.capitalcraft.atm": "ATM",
+  "block.capitalcraft.safe": "Safe",
   "item.capitalcraft.money_voucher": "Money Voucher",
   "screen.capitalcraft.trading_terminal": "Trading Terminal",
   "screen.capitalcraft.atm": "ATM",

@@ -1,8 +1,10 @@
 package com.capitalcraft.capitalcraft;
 
 import com.capitalcraft.capitalcraft.block.CapitalcraftBlocks;
+import com.capitalcraft.capitalcraft.block.ModBlockEntities;
 import com.capitalcraft.capitalcraft.command.CeoCommand;
 import com.capitalcraft.capitalcraft.command.MoneyCommand;
+import com.capitalcraft.capitalcraft.command.PinCommand;
 import com.capitalcraft.capitalcraft.item.CapitalcraftItems;
 import com.capitalcraft.capitalcraft.event.PlayerEventListener;
 import com.capitalcraft.capitalcraft.market.MarketSimulator;
@@ -21,22 +23,20 @@ public class Capitalcraft implements ModInitializer {
     @Override
     public void onInitialize() {
         CapitalcraftBlocks.init();
+        ModBlockEntities.init();
         CapitalcraftItems.init();
         CapitalcraftWorldFeatures.init();
         CapitalcraftScreens.init();
         CapitalcraftNetworking.init();
         CeoCommand.register();
         MoneyCommand.register();
+        PinCommand.register();
         PlayerEventListener.register();
 
         MarketSimulator.reset();
 
-        ServerTickEvents.END_SERVER_TICK.register(server -> {
-            MarketSimulator.tick(server.getTicks());
-        });
+        ServerTickEvents.END_SERVER_TICK.register(server -> MarketSimulator.tick(server.getTicks()));
 
-        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
-            TradingLedger.syncWallet(handler.player);
-        });
+        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> TradingLedger.syncWallet(handler.player));
     }
 }

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "EEE",
+    "ECE",
+    "EEE"
+  ],
+  "key": {
+    "E": "minecraft:emerald",
+    "C": "minecraft:chest"
+  },
+  "result": {
+    "id": "capitalcraft:safe",
+    "count": 1
+  }
+}

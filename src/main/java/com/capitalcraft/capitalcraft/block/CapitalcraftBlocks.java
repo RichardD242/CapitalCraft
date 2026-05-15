@@ -16,6 +16,7 @@ public final class CapitalcraftBlocks {
 
         private static final Identifier TRADING_TERMINAL_ID = Identifier.of(Capitalcraft.MOD_ID, "trading_terminal");
         private static final Identifier ATM_ID = Identifier.of(Capitalcraft.MOD_ID, "atm");
+        private static final Identifier SAFE_ID = Identifier.of(Capitalcraft.MOD_ID, "safe");
         private static final RegistryKey<Block> TRADING_TERMINAL_KEY = RegistryKey.of(RegistryKeys.BLOCK, TRADING_TERMINAL_ID);
         private static final RegistryKey<Item> TRADING_TERMINAL_ITEM_KEY = RegistryKey.of(RegistryKeys.ITEM, TRADING_TERMINAL_ID);
         private static final RegistryKey<Block> ATM_KEY = RegistryKey.of(RegistryKeys.BLOCK, ATM_ID);
@@ -43,6 +44,21 @@ public final class CapitalcraftBlocks {
             Registries.ITEM,
             ATM_ID,
             new BlockItem(ATM, new Item.Settings().registryKey(ATM_ITEM_KEY))
+    );
+
+    private static final RegistryKey<Block> SAFE_KEY = RegistryKey.of(RegistryKeys.BLOCK, SAFE_ID);
+    private static final RegistryKey<Item> SAFE_ITEM_KEY = RegistryKey.of(RegistryKeys.ITEM, SAFE_ID);
+
+    public static final Block SAFE = Registry.register(
+            Registries.BLOCK,
+            SAFE_ID,
+            new safeblock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK).strength(4.0f).requiresTool().registryKey(SAFE_KEY))
+    );
+
+    public static final Item SAFE_ITEM = Registry.register(
+            Registries.ITEM,
+            SAFE_ID,
+            new BlockItem(SAFE, new Item.Settings().registryKey(SAFE_ITEM_KEY))
     );
 
     private CapitalcraftBlocks() {
